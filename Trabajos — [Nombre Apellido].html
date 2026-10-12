@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>[Nombre Apellido] — Trabajos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F5F1;
+    --ink: #1C2321;
+    --muted: #70766E;
+    --line: #DBDAD3;
+    --accent: #3A5A54;
+    --bg-elevated: #FFFFFF00;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15191A;
+      --ink: #E9E7E0;
+      --muted: #9BA09A;
+      --line: #2B3130;
+      --accent: #7FAE9F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15191A;
+    --ink: #E9E7E0;
+    --muted: #9BA09A;
+    --line: #2B3130;
+    --accent: #7FAE9F;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 500;
+    margin: 0;
+  }
+  a { color: inherit; }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 48px;
+  }
+  header.hero {
+    margin-bottom: 64px;
+  }
+  .eyebrow {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0 0 18px;
+  }
+  h1.name {
+    font-size: clamp(32px, 6vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .role {
+    color: var(--muted);
+    font-size: 17px;
+    margin-top: 10px;
+  }
+  p.lede {
+    max-width: 58ch;
+    margin: 28px 0 0;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  section { margin-bottom: 64px; }
+  section > h2 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+  }
+  .work-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .work-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 24px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .work-row:first-child { padding-top: 0; }
+  .work-title {
+    font-size: 20px;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 500;
+  }
+  .work-title a { text-decoration: none; }
+  .work-title a:hover { color: var(--accent); }
+  .work-desc {
+    grid-column: 1 / -1;
+    color: var(--muted);
+    font-size: 15.5px;
+    max-width: 62ch;
+    margin-top: 4px;
+  }
+  .work-tags {
+    grid-column: 1 / -1;
+    font-size: 13.5px;
+    color: var(--accent);
+    margin-top: 10px;
+    letter-spacing: 0.01em;
+  }
+  .work-link {
+    font-size: 14px;
+    color: var(--muted);
+    white-space: nowrap;
+    text-decoration: none;
+    align-self: start;
+    padding-top: 4px;
+  }
+  .work-link:hover { color: var(--accent); }
+  .about p {
+    max-width: 62ch;
+    color: var(--ink);
+  }
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 28px;
+    font-size: 14.5px;
+  }
+  footer a {
+    text-decoration: none;
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  footer a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 48px 18px 40px; }
+    .work-row { grid-template-columns: 1fr; }
+    .work-link { padding-top: 0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wrap { animation: rise 0.5s ease both; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="hero">
+      <p class="eyebrow">[Área / disciplina — ej. Bioinformática y desarrollo de software]</p>
+      <h1 class="name">[Nombre Apellido]</h1>
+      <p class="role">[Rol actual — ej. Investigador en genómica clínica, [Institución]]</p>
+      <p class="lede">
+        [Una o dos líneas que expliquen qué hacés y para quién: herramientas y análisis
+        que desarrollás, pensadas tanto para uso en investigación/docencia como para
+        proyectos por fuera del ámbito académico.]
+      </p>
+    </header>
+
+    <section>
+      <h2>Trabajos</h2>
+      <ul class="work-list">
+
+        <li class="work-row">
+          <h3 class="work-title"><a href="#">[Proyecto 1 — nombre]</a></h3>
+          <a class="work-link" href="#">Ver →</a>
+          <p class="work-desc">[Qué es, qué problema resuelve y para quién — una o dos líneas.]</p>
+          <p class="work-tags">[Tecnología A · Tecnología B · Tecnología C]</p>
+        </li>
+
+        <li class="work-row">
+          <h3 class="work-title"><a href="#">[Proyecto 2 — nombre]</a></h3>
+          <a class="work-link" href="#">Ver →</a>
+          <p class="work-desc">[Qué es, qué problema resuelve y para quién — una o dos líneas.]</p>
+          <p class="work-tags">[Tecnología A · Tecnología B]</p>
+        </li>
+
+        <li class="work-row">
+          <h3 class="work-title"><a href="#">[Proyecto 3 — nombre]</a></h3>
+          <a class="work-link" href="#">Ver →</a>
+          <p class="work-desc">[Qué es, qué problema resuelve y para quién — una o dos líneas.]</p>
+          <p class="work-tags">[Tecnología A · Tecnología B · Tecnología C]</p>
+        </li>
+
+        <li class="work-row">
+          <h3 class="work-title"><a href="#">[Proyecto 4 — nombre]</a></h3>
+          <a class="work-link" href="#">Ver →</a>
+          <p class="work-desc">[Qué es, qué problema resuelve y para quién — una o dos líneas.]</p>
+          <p class="work-tags">[Tecnología A · Tecnología B]</p>
+        </li>
+
+        <li class="work-row">
+          <h3 class="work-title"><a href="#">[Proyecto 5 — nombre]</a></h3>
+          <a class="work-link" href="#">Ver →</a>
+          <p class="work-desc">[Qué es, qué problema resuelve y para quién — una o dos líneas.]</p>
+          <p class="work-tags">[Tecnología A · Tecnología B · Tecnología C]</p>
+        </li>
+
+      </ul>
+    </section>
+
+    <section class="about">
+      <h2>Sobre mí</h2>
+      <p>
+        [Dos o tres líneas de trayectoria: formación, institución, línea de trabajo.
+        Pensado para que sirva de presentación tanto frente a estudiantes como frente
+        a un posible cliente o empleador.]
+      </p>
+    </section>
+
+    <footer>
+      <a href="https://github.com/[usuario]" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/[usuario]" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:[email protected]">[email protected]</a>
+    </footer>
+
+  </div>
+</body>
+</html>

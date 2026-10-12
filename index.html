@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="auto">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lorenzo Erra — Portfolio</title>
+  <meta name="description"
+    content="Portfolio de herramientas web desarrolladas por Lorenzo Erra para la enseñanza, la investigación y la práctica en genómica clínica e inmunología.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ══ TOKENS ══════════════════════════════════════════════════ */
+    :root {
+      --bg: #F5F4F0;
+      --bg-elevated: #FDFCF9;
+      --ink: #1A1E1D;
+      --ink-2: #3A3E3C;
+      --muted: #6C726E;
+      --line: #DDD9D0;
+      --line-strong: #C8C4BB;
+      --accent: #2E5C52;
+      --accent-soft: #EBF2F0;
+      --tag-bg: #EDECE8;
+      --tag-ink: #4A5450;
+      --mono: 'IBM Plex Mono', monospace;
+      --serif: 'Source Serif 4', Georgia, serif;
+      --sans: 'IBM Plex Sans', system-ui, sans-serif;
+      --transition: 0.18s ease;
+      --drawer-w: 480px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #141817;
+        --bg-elevated: #1C2120;
+        --ink: #E8E5DC;
+        --ink-2: #C4C1B8;
+        --muted: #8A908C;
+        --line: #252C2A;
+        --line-strong: #303835;
+        --accent: #7BAAA0;
+        --accent-soft: #1E2C2A;
+        --tag-bg: #1E2523;
+        --tag-ink: #8FAAA5;
+      }
+    }
+
+    [data-theme="dark"] {
+      --bg: #141817;
+      --bg-elevated: #1C2120;
+      --ink: #E8E5DC;
+      --ink-2: #C4C1B8;
+      --muted: #8A908C;
+      --line: #252C2A;
+      --line-strong: #303835;
+      --accent: #7BAAA0;
+      --accent-soft: #1E2C2A;
+      --tag-bg: #1E2523;
+      --tag-ink: #8FAAA5;
+    }
+
+    /* ══ RESET ═══════════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--serif);
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    a {
+      color: inherit;
+      transition: color var(--transition);
+    }
+
+    /* ══ LAYOUT ══════════════════════════════════════════════════ */
+    .wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 80px 28px 72px;
+      transition: filter 0.3s ease;
+    }
+
+    body.drawer-open {
+      overflow: hidden;
+    }
+
+    body.drawer-open .wrap {
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    /* ══ THEME TOGGLE ════════════════════════════════════════════ */
+    .theme-btn {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 50;
+      background: var(--bg-elevated);
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--muted);
+      transition: background var(--transition), border-color var(--transition),
+        color var(--transition), box-shadow var(--transition);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .theme-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+    }
+
+    .icon-sun,
+    .icon-moon {
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    [data-theme="dark"] .icon-moon {
+      display: none;
+    }
+
+    [data-theme="light"] .icon-sun {
+      display: none;
+    }
+
+    /* ══ HERO ════════════════════════════════════════════════════ */
+    header.hero {
+      margin-bottom: 72px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--muted);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1.name {
+      font-size: clamp(34px, 6vw, 52px);
+      letter-spacing: -0.02em;
+    }
+
+    .role {
+      color: var(--muted);
+      font-size: 16px;
+      margin-top: 12px;
+    }
+
+    p.lede {
+      max-width: 58ch;
+      margin-top: 32px;
+      font-size: 17px;
+      color: var(--ink-2);
+      line-height: 1.7;
+    }
+
+    /* ══ SECTION LABEL ═══════════════════════════════════════════ */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ══ FILTERS ═════════════════════════════════════════════════ */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+
+    .filter-btn {
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ══ WORK LIST ═══════════════════════════════════════════════ */
+    .work-list {
+      list-style: none;
+    }
+
+    .work-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0 28px;
+      padding: 30px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+
+    .work-row:first-child {
+      padding-top: 0;
+    }
+
+    .work-row.hidden {
+      display: none;
+    }
+
+    .work-title {
+      font-size: 20px;
+      font-family: var(--serif);
+      font-weight: 500;
+    }
+
+    .work-title a {
+      text-decoration: none;
+      background-image: linear-gradient(var(--accent), var(--accent));
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      transition: background-size var(--transition), color var(--transition);
+    }
+
+    .work-title a:hover {
+      color: var(--accent);
+      background-size: 100% 1px;
+    }
+
+    .work-link {
+      font-size: 13px;
+      font-family: var(--mono);
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 5px 0 0;
+      letter-spacing: 0.02em;
+      transition: color var(--transition);
+    }
+
+    .work-link:hover {
+      color: var(--accent);
+    }
+
+    .work-desc {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 62ch;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .work-meta {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: var(--tag-bg);
+      color: var(--tag-ink);
+      letter-spacing: 0.03em;
+    }
+
+    .tag.context {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tag.no-deploy {
+      background: transparent;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+    }
+
+    /* ══ DRAWER OVERLAY ══════════════════════════════════════════ */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      z-index: 200;
+      pointer-events: none;
+      transition: background 0.35s ease;
+    }
+
+    .drawer-overlay.open {
+      background: rgba(0, 0, 0, 0.38);
+      pointer-events: all;
+    }
+
+    /* ══ DRAWER PANEL ════════════════════════════════════════════ */
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      width: min(var(--drawer-w), 100vw);
+      background: var(--bg-elevated);
+      border-left: 1px solid var(--line);
+      z-index: 210;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+
+    .drawer-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .drawer-close:hover {
+      color: var(--ink);
+      background: var(--tag-bg);
+    }
+
+    .drawer-body {
+      flex: 1 1 0%;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      padding: 24px;
+      display: block;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+
+    .drawer-body > * + * {
+      margin-top: 24px;
+    }
+
+    .drawer-body::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    .drawer-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .drawer-body::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .drawer-body::-webkit-scrollbar-thumb:hover {
+      background: var(--ink-2);
+    }
+
+    /* Preview image */
+    .drawer-preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      max-height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--tag-bg);
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .drawer-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .drawer-preview:hover img {
+      transform: scale(1.02);
+    }
+
+    .drawer-preview .preview-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .preview-placeholder svg {
+      opacity: 0.3;
+    }
+
+    /* Title block */
+    .drawer-title-block h4 {
+      font-size: 22px;
+      color: var(--ink);
+    }
+
+    .drawer-title-block .drawer-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    /* Preguntas disparadoras */
+    .drawer-questions {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .drawer-questions-label {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 16px 10px;
+      background: var(--tag-bg);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-question-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14.5px;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+
+    .drawer-question-item:last-child {
+      border-bottom: none;
+    }
+
+    .q-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* Drawer footer CTA */
+    .drawer-footer {
+      flex-shrink: 0;
+      padding: 20px 24px;
+      border-top: 1px solid var(--line);
+      background: var(--bg-elevated);
+    }
+
+    .btn-ir {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-ir:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-ir:active {
+      transform: translateY(0);
+    }
+
+    .btn-ir.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    /* ══ ABOUT ═══════════════════════════════════════════════════ */
+    section.about {
+      margin-top: 72px;
+    }
+
+    .about p {
+      max-width: 62ch;
+      color: var(--ink-2);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .about p+p {
+      margin-top: 16px;
+    }
+
+    /* ══ LINKS EXTERNOS ══════════════════════════════════════════ */
+    section.links {
+      margin-top: 56px;
+    }
+
+    .links-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .link-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 100px;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all var(--transition);
+      letter-spacing: 0.02em;
+    }
+
+    .link-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .link-pill svg {
+      flex-shrink: 0;
+    }
+
+    /* ══ FOOTER ══════════════════════════════════════════════════ */
+    footer {
+      margin-top: 80px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      font-size: 13.5px;
+      font-family: var(--mono);
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    /* ══ ENTRANCE ════════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: no-preference) {
+      .wrap {
+        animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ══ MOBILE ══════════════════════════════════════════════════ */
+    @media (max-width: 560px) {
+      .wrap {
+        padding: 52px 18px 56px;
+      }
+
+      .work-row {
+        grid-template-columns: 1fr;
+      }
+
+      .work-link {
+        padding-top: 0;
+        margin-top: 4px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .drawer {
+        width: 100vw;
+      }
+
+      .drawer-body {
+        padding: 20px 18px;
+      }
+
+      .drawer-header,
+      .drawer-footer {
+        padding: 16px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <button class="theme-btn" id="themeToggle" aria-label="Cambiar tema claro/oscuro">
+    <span class="icon-sun" aria-hidden="true">☀︎</span>
+    <span class="icon-moon" aria-hidden="true">☽</span>
+  </button>
+
+  <!-- Drawer overlay -->
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+
+  <!-- Drawer panel -->
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div class="drawer-header">
+      <span class="drawer-eyebrow" id="drawerEyebrow">Vista previa</span>
+      <button class="drawer-close" id="drawerClose" aria-label="Cerrar panel">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-preview" id="drawerPreview">
+        <img id="drawerImg" src="" alt="" style="display:none;">
+        <div class="preview-placeholder" id="drawerPlaceholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <path d="M21 15l-5-5L5 21" />
+          </svg>
+          <span>Vista previa no disponible</span>
+        </div>
+      </div>
+      <div class="drawer-title-block">
+        <h4 id="drawerTitle"></h4>
+        <p id="drawerDesc" style="margin-top:10px; font-size:14.5px; color:var(--muted); line-height:1.6;"></p>
+        <div class="drawer-tags" id="drawerTags"></div>
+      </div>
+      <div class="drawer-questions" id="drawerQuestions">
+        <div class="drawer-questions-label">¿Para qué sirve?</div>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <a class="btn-ir" id="drawerBtn" href="#" target="_blank" rel="noopener noreferrer">
+        <span id="drawerBtnLabel">Ir al proyecto</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══════════════════════════════════════════════════ -->
+  <div class="wrap">
+
+    <!-- HERO -->
+    <header class="hero">
+      <p class="eyebrow">Genómica Clínica · Bioinformática · Desarrollo Web</p>
+      <h1 class="name">Lorenzo Erra</h1>
+      <p class="role">Bioinformático · Genómico Clínico · Escuela de Genómica Clínica (EGC)</p>
+      <p class="lede">
+        Desarrollo herramientas web orientadas a la enseñanza y la práctica en genómica clínica
+        e inmunología. Cada proyecto nació de una necesidad docente concreta y está pensado para
+        ser accesible desde el navegador, sin instalación.
+      </p>
+    </header>
+
+    <!-- PROYECTOS -->
+    <section id="proyectos">
+      <p class="section-label">Proyectos</p>
+
+      <div class="filters" role="group" aria-label="Filtrar proyectos">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="genomica">Genómica</button>
+        <button class="filter-btn" data-filter="inmunologia">Inmunología</button>
+        <button class="filter-btn" data-filter="ia">IA / Asistente</button>
+        <button class="filter-btn" data-filter="visualizacion">Visualización</button>
+        <button class="filter-btn" data-filter="examen">Examen</button>
+      </div>
+
+      <ul class="work-list" id="workList">
+
+        <!-- ─── 1. ClinGenIO ─────────────────────────────────── -->
+        <li class="work-row" data-tags="genomica ia" data-url="https://egc-acmg.pages.dev/" data-img=""
+          data-q1="¿Qué criterio ACMG/AMP aplica a esta variante? (PVS1, PM2, PP3…)"
+          data-q2="¿Cómo clasifico una variante de significado incierto (VUS) según ClinGen?"
+          data-q3="¿Cuál es la diferencia entre PS3 y BS3 en genómica funcional?"
+          data-q4="¿Qué publicaciones científicas respaldan la respuesta?">
+          <h3 class="work-title"><a href="#" onclick="return false;">ClinGenIO</a></h3>
+          <button class="work-link" aria-label="Ver detalles de ClinGenIO">Ver →</button>
+          <p class="work-desc">Asistente de IA especializado en la clasificación de variantes genéticas según las guías
+            ACMG/AMP y ClinGen. Responde consultas con evidencia de 18 publicaciones científicas indexadas.</p>
+          <div class="work-meta">
+            <span class="tag context">Genómica · IA</span>
+            <span class="tag">LLM</span>
+            <!-- <span class="tag">JavaScript</span> -->
+            <!-- <span class="tag">RAG</span> -->
+            <!-- <span class="tag">Web Crypto API</span> -->
+          </div>
+        </li>
+
+        <!-- ─── 2. Aiuda-predictor (EuGenIA) ─────────────────── -->
+        <li class="work-row" data-tags="genomica visualizacion" data-url="https://egcinmuno.github.io/Aiuda-predictor/"
+          data-img="" data-q1="¿Cómo afecta esta variante al marco de lectura del transcripto?"
+          data-q2="¿Dónde cae la variante respecto a los exones e intrones del gen?"
+          data-q3="¿Qué impacto tiene sobre el splicing canónico?"
+          data-q4="¿Cómo se usa en clase para analizar un caso clínico paso a paso?">
+          <h3 class="work-title"><a href="#" onclick="return false;">Aiuda-predictor</a></h3>
+          <button class="work-link" aria-label="Ver detalles de Aiuda-predictor">Ver →</button>
+          <p class="work-desc">Plataforma pedagógica para el análisis molecular de variantes. Visualiza la variante en
+            el mapa exón-intrón, a nivel de bases y predice el nuevo marco de lectura.</p>
+          <div class="work-meta">
+            <span class="tag context">Genómica · Visualización</span>
+            <span class="tag">HTML</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Canvas</span>
+          </div>
+        </li>
+
+        <!-- ─── 3. Torta ACMG (EGC-guia) ─────────────────────── -->
+        <li class="work-row" data-tags="genomica visualizacion" data-url="#" data-img=""
+          data-q1="¿Cómo distribuir los criterios ACMG en un caso de clasificación?"
+          data-q2="¿Qué peso tienen los criterios combinados según ClinGen?"
+          data-q3="¿Cómo se usa como guía visual en clase o en una consulta?"
+          data-q4="¿En qué se diferencia esta representación del algoritmo tabular clásico?">
+          <h3 class="work-title"><a href="#" onclick="return false;">Guía Visual ACMG — Torta</a></h3>
+          <button class="work-link" aria-label="Ver detalles de Guía Visual ACMG">Ver →</button>
+          <p class="work-desc">Representación visual interactiva de los criterios de clasificación ClinGen/ACMG.
+            Facilita la comprensión del peso relativo de cada criterio en el proceso de clasificación.</p>
+          <div class="work-meta">
+            <span class="tag context">Genómica · Visualización</span>
+            <span class="tag">HTML</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag context no-deploy">Sin deploy aún</span>
+          </div>
+        </li>
+
+        <!-- ─── 4. Interactive IEI / IUIS Explorer ────────────── -->
+        <li class="work-row" data-tags="inmunologia visualizacion" data-url="https://iuis-explorer.pages.dev/login"
+          data-img="" data-q1="¿Cuáles son los genes asociados a este tipo de Error Innato de la Inmunidad?"
+          data-q2="¿Cómo explorar la clasificación IUIS para un fenotipo clínico dado?"
+          data-q3="¿Qué vías inmunológicas afecta la variante que estoy analizando?"
+          data-q4="¿Cómo se usa en docencia para introducir los EII en clases especializadas?">
+          <h3 class="work-title"><a href="#" onclick="return false;">Interactive IEI — IUIS Explorer</a></h3>
+          <button class="work-link" aria-label="Ver detalles de IUIS Explorer">Ver →</button>
+          <p class="work-desc">Plataforma interactiva para la exploración de genes y fenotipos según la clasificación
+            IUIS de Errores Innatos de la Inmunidad. Acceso restringido para docencia y consulta especializada.</p>
+          <div class="work-meta">
+            <span class="tag context">Inmunología</span>
+            <span class="tag">HTML</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </li>
+
+        <!-- ─── 5. EGCinmuno — Laboratorio Virtual ────────────── -->
+        <li class="work-row" data-tags="inmunologia examen" data-url="https://egcinmuno.pages.dev/" data-img=""
+          data-q1="¿Qué casos clínicos de inmunología se trabajan en la plataforma?"
+          data-q2="¿Cómo acceden los estudiantes al examen y cómo se registra el progreso?"
+          data-q3="¿Existe un panel docente para administrar los casos y los alumnos?"
+          data-q4="¿Puede usarse en exámenes formales o solo como práctica?">
+          <h3 class="work-title"><a href="#" onclick="return false;">EGCinmuno — Laboratorio Virtual</a></h3>
+          <button class="work-link" aria-label="Ver detalles de EGCinmuno">Ver →</button>
+          <p class="work-desc">Plataforma de examen práctico para la Especialización en Genética Clínica e Inmunología.
+            Laboratorio virtual con casos clínicos, panel docente y seguimiento de alumnos.</p>
+          <div class="work-meta">
+            <span class="tag context">Inmunología · Examen</span>
+            <!-- <span class="tag">HTML</span> -->
+            <!-- <span class="tag">JavaScript</span> -->
+            <!-- <span class="tag">Supabase</span> -->
+            <!-- <span class="tag">i18n</span> -->
+          </div>
+        </li>
+
+        <!-- ─── 5. Git personal   ────────────── -->
+        <li class="work-row" data-tags="gitpersonal" data-url="https://github.com/erralorenzo/erralorenzo" data-img="">
+          <h3 class="work-title"><a href="#" onclick="return false;">Personal GitHub</a></h3>
+          <button class="work-link" aria-label="Ver detalles de gitpersonal">Ver →</button>
+          <p class="work-desc">Bioinformatician, PhD in the intersection of clinical genomics, data
+            science, and artificial intelligence.
+            I enjoy transforming complex biological and clinical data into intuitive analyses, visualizations and
+            decision-support tools.</p>
+          <div class="work-meta">
+            <span class="tag context">Github</span>
+            <span class="tag">Proyects</span>
+            <!-- <span class="tag">JavaScript</span> -->
+            <!-- <span class="tag">Supabase</span> -->
+            <!-- <span class="tag">i18n</span> -->
+          </div>
+        </li>
+
+
+      </ul>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section class="about" id="sobre-mi">
+      <p class="section-label">Sobre mí</p>
+      <p>
+        Bioinformático y Genómico Clínico con formación en la Escuela de Genómica Clínica (EGC),
+        un espacio de formación avanzada en genómica, bioinformática y medicina de precisión
+        de la Facultad de Ciencias Exactas y Naturales, UBA.
+      </p>
+      <p>
+        Me especializo en el desarrollo de herramientas web educativas que hacen accesibles
+        conceptos complejos de genómica clínica e inmunología, tanto para el aula como para
+        la práctica clínica y la investigación.
+      </p>
+    </section>
+
+    <!-- LINKS EXTERNOS -->
+    <section class="links" id="enlaces">
+      <p class="section-label">Perfiles</p>
+      <div class="links-grid">
+
+        <a class="link-pill" href="https://www.linkedin.com/in/lorenzo-erra-4788a51b3/" target="_blank"
+          rel="noopener noreferrer">
+          <!-- LinkedIn icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zm2-5a2 2 0 1 1 0 4 2 2 0 0 1 0-4z" />
+          </svg>
+          LinkedIn
+        </a>
+
+        <!-- <a class="link-pill" href="https://www.linkedin.com/showcase/[pagina-proyectos]/" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zm2-5a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
+          </svg>
+          LinkedIn · Proyectos EGC
+        </a> -->
+
+        <a class="link-pill" href="https://pubmed.ncbi.nlm.nih.gov/?term=Erra+Lorenzo" target="_blank"
+          rel="noopener noreferrer">
+          <!-- PubMed / artículo icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          PubMed
+        </a>
+
+        <!-- <a class="link-pill" href="https://github.com/egcinmuno" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub · EGCinmuno
+        </a> -->
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <nav class="footer-links" aria-label="Contacto">
+        <a href="https://www.linkedin.com/in/lorenzo-erra-4788a51b3/" target="_blank"
+          rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Erra+Lorenzo" target="_blank"
+          rel="noopener noreferrer">PubMed</a>
+        <a href="mailto:erralorenzo@gmail.com">Email</a>
+      </nav>
+      <span class="footer-copy">© <span id="year"></span> Lorenzo Erra</span>
+    </footer>
+
+  </div><!-- /wrap -->
+
+  <script>
+    // ── Año ────────────────────────────────────────────────────
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Theme toggle ───────────────────────────────────────────
+    const root = document.documentElement;
+    const themBtn = document.getElementById('themeToggle');
+    function getSystemTheme() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function applyTheme(t) {
+      root.setAttribute('data-theme', t);
+      localStorage.setItem('portfolio-theme', t);
+    }
+    applyTheme(localStorage.getItem('portfolio-theme') || getSystemTheme());
+    themBtn.addEventListener('click', () => {
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('portfolio-theme')) applyTheme(e.matches ? 'dark' : 'light');
+    });
+
+    // ── Filters ────────────────────────────────────────────────
+    document.querySelectorAll('.filter-btn').forEach(fb => {
+      fb.addEventListener('click', () => {
+        const f = fb.dataset.filter;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        fb.classList.add('active');
+        document.querySelectorAll('.work-row').forEach(row => {
+          if (f === 'all') row.classList.remove('hidden');
+          else row.classList.toggle('hidden', !(row.dataset.tags || '').split(' ').includes(f));
+        });
+      });
+    });
+
+    // ── Drawer ─────────────────────────────────────────────────
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const drawerClose = document.getElementById('drawerClose');
+    const drawerBtn = document.getElementById('drawerBtn');
+    const drawerBtnLbl = document.getElementById('drawerBtnLabel');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const drawerDesc = document.getElementById('drawerDesc');
+    const drawerTags = document.getElementById('drawerTags');
+    const drawerQ = document.getElementById('drawerQuestions');
+    const drawerImg = document.getElementById('drawerImg');
+    const drawerPH = document.getElementById('drawerPlaceholder');
+
+    function openDrawer(row) {
+      const title = row.querySelector('.work-title a').textContent;
+      const desc = row.querySelector('.work-desc').textContent;
+      const url = row.dataset.url || '#';
+      const img = row.dataset.img || '';
+      const qs = ['q1', 'q2', 'q3', 'q4'].map(k => row.dataset[k]).filter(Boolean);
+      const hasUrl = url && url !== '#';
+
+      // preview
+      if (img) {
+        drawerImg.src = img; drawerImg.alt = title;
+        drawerImg.style.display = 'block'; drawerPH.style.display = 'none';
+      } else {
+        drawerImg.style.display = 'none'; drawerPH.style.display = 'flex';
+      }
+
+      // content
+      drawerTitle.textContent = title;
+      drawerDesc.textContent = desc;
+
+      // tags
+      drawerTags.innerHTML = '';
+      row.querySelectorAll('.tag').forEach(t => drawerTags.appendChild(t.cloneNode(true)));
+
+      // questions
+      drawerQ.innerHTML = '<div class="drawer-questions-label">¿Que motivo este proyecto?</div>';
+      qs.forEach((q, i) => {
+        const item = document.createElement('div');
+        item.className = 'drawer-question-item';
+        item.innerHTML = `<span class="q-icon">${i + 1}</span><span>${q}</span>`;
+        drawerQ.appendChild(item);
+      });
+
+      // CTA
+      drawerBtn.href = url;
+      if (hasUrl) {
+        drawerBtn.classList.remove('disabled');
+        drawerBtnLbl.textContent = 'Ir al proyecto';
+      } else {
+        drawerBtn.classList.add('disabled');
+        drawerBtnLbl.textContent = 'Próximamente';
+      }
+
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.removeAttribute('aria-hidden');
+      overlay.removeAttribute('aria-hidden');
+      document.body.classList.add('drawer-open');
+      const drawerBody = drawer.querySelector('.drawer-body');
+      if (drawerBody) drawerBody.scrollTop = 0;
+      drawerClose.focus();
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+
+    document.querySelectorAll('.work-link').forEach(btn => {
+      btn.addEventListener('click', () => openDrawer(btn.closest('.work-row')));
+    });
+    document.querySelectorAll('.work-title a').forEach(a => {
+      a.addEventListener('click', e => { e.preventDefault(); openDrawer(a.closest('.work-row')); });
+    });
+
+    drawerClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    overlay.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+    overlay.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+    });
+  </script>
+
+</body>
+
+</html>
